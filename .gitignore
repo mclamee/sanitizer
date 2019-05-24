@@ -1,0 +1,83 @@
+Skip to content
+
+Please note that GitHub no longer supports your web browser.
+We recommend upgrading to the latest Google Chrome or Firefox.
+Ignore
+Learn more
+
+Search or jump to…
+
+Pull requests
+Issues
+Marketplace
+Explore
+
+@mclamee
+ Unwatch 1
+ Star 0  Fork 0 mclamee/che-dam
+ Code  Issues 0  Pull requests 0  Projects 0  Wiki  Security  Insights  Settings
+Branch: master
+che-dam/.gitignore
+Find file Copy path
+Fetching contributors…
+Cannot retrieve contributors at this time.
+44 lines (38 sloc)  397 Bytes
+RawBlameHistory
+
+HELP.md
+.gradle
+/build/
+!gradle/wrapper/gradle-wrapper.jar
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+/out/
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+### VS Code ###
+.vscode/
+
+
+### JAVA ###
+*.class
+*.jar
+*.war
+*.tar
+*.gz
+*.rar
+*.zip
+*.bak
+/target
+/bin
+**/CVS/**
+© 2019 GitHub, Inc.
+Terms
+Privacy
+Security
+Status
+Help
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About
+.idea
