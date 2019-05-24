@@ -23,14 +23,14 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 public class SanitizerCache {
-
-    private Map<SanitizerCacheKey, Method> caches;
+    public static final String BASE_PACKAGE = "com.mclamee.sanitizer";
     public static final String DEFAULT_KEY = "default";
+
+    private Map<SanitizerCacheKey, Method> cacheHolder;
 
     @PostConstruct
     public void init() {
-        System.out.println("Inside init SanitizerCache");
-        caches = new HashMap<>();
+        cacheHolder = new HashMap<>();
     }
 
     @Data
@@ -44,7 +44,7 @@ public class SanitizerCache {
     }
 
     public boolean exists(SanitizerCacheKey refKey) {
-        return caches.get(refKey) != null;
+        return cacheHolder.get(refKey) != null;
     }
 
     public Method get(SanitizerCacheKey refKey, boolean isDefault) {
@@ -56,18 +56,18 @@ public class SanitizerCache {
         }
 
         // lookup the method
-        Set<Map.Entry<SanitizerCacheKey, Method>> entries = caches.entrySet();
+        Set<Map.Entry<SanitizerCacheKey, Method>> entries = cacheHolder.entrySet();
         for (int i = 0; i < predicates.size(); i++) {
             BiPredicate<SanitizerCacheKey, SanitizerCacheKey> predicate = predicates.get(i);
 
             Optional<Map.Entry<SanitizerCacheKey, Method>> found;
             if ((found = testCacheKey(refKey, entries, predicate)).isPresent()) {
-                log.debug("Found com.mclamee.sanitizer [" + refKey + "] by rule#" + i + "!");
+                log.debug("Found sanitizer [" + refKey + "] by rule#" + i + "!");
                 return found.get().getValue();
             }
         }
         // nothing fond return null
-        log.debug("No com.mclamee.sanitizer [" + refKey + "] found!");
+        log.debug("No sanitizer [" + refKey + "] found!");
         return null;
     }
 
@@ -132,6 +132,6 @@ public class SanitizerCache {
     }
 
     public void put(SanitizerCacheKey refKey, Method method) {
-        this.caches.put(refKey, method);
+        this.cacheHolder.put(refKey, method);
     }
 }

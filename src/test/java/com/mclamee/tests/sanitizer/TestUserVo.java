@@ -1,10 +1,10 @@
-package com.mclamee.sanitizer;
+package com.mclamee.tests.sanitizer;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class UserVo {
+public class TestUserVo {
     private String userName;
 }

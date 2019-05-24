@@ -10,12 +10,14 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.core.annotation.AnnotationUtils;
+import org.springframework.stereotype.Component;
 import org.springframework.util.ReflectionUtils;
 
 /**
  * Post processor to look for Sanitizers in all Beans
  */
 @Slf4j
+@Component
 public class SanitizerPostProcessor implements BeanPostProcessor {
 
     @Autowired
@@ -24,7 +26,7 @@ public class SanitizerPostProcessor implements BeanPostProcessor {
     /**
      * Before init
      *
-     * @param bean bean
+     * @param bean     bean
      * @param beanName beanName
      * @return the object
      * @throws BeansException exception
@@ -37,7 +39,7 @@ public class SanitizerPostProcessor implements BeanPostProcessor {
     /**
      * Post init
      *
-     * @param bean bean
+     * @param bean     bean
      * @param beanName beanName
      * @return the object
      * @throws BeansException exception
@@ -77,7 +79,7 @@ public class SanitizerPostProcessor implements BeanPostProcessor {
                     .methodName(methodName)
                     .build();
 
-                System.out.println("Caching.. refKey = " + refKey);
+                log.info("Caching.. refKey = " + refKey);
                 if (caches.exists(refKey)) {
                     throw new IllegalArgumentException("Duplicated Sanitizer by Key: [" + refKey + "], please specify a name for it.");
                 } else {
@@ -94,7 +96,7 @@ public class SanitizerPostProcessor implements BeanPostProcessor {
 
                 // override or use the first found as default
                 if (noNameSpecified && (!caches.exists(defaultKey) || annotation.setDefault())) {
-                    System.out.println("Caching.. defaultKey = " + defaultKey);
+                    log.info("Caching.. defaultKey = " + defaultKey);
                     method.setAccessible(true); // make it public
                     caches.put(defaultKey, method);
                 }

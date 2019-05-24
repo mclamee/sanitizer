@@ -1,6 +1,5 @@
 package com.mclamee.sanitizer;
 
-
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
@@ -19,14 +18,11 @@ import org.springframework.stereotype.Component;
 @Aspect
 @Component
 public class SanitizerAspect {
+    public static final String AROUND_EXPRESSION = "execution(public * *(.., @" + SanitizerCache.BASE_PACKAGE + ".Sanitized (*), ..))";
 
-    @Autowired
-    private SanitizerCache cache;
-
-    @Around("execution(public * *(.., @com.mclamee.sanitizer.Sanitized (*), ..))")
+    @Around(AROUND_EXPRESSION)
     public Object methodWithAnnotationOnAtLeastOneParameter(ProceedingJoinPoint pjp) throws Throwable {
         String className = pjp.getSignature().getDeclaringTypeName();
-        System.out.println("className = " + className);
 
         MethodSignature methodSig = (MethodSignature) pjp.getSignature();
         Method targetMethod = methodSig.getMethod();
@@ -46,7 +42,7 @@ public class SanitizerAspect {
                         .className(className)
                         .genericTypeName(genericTypeName)
                         .sanitizerName(sanitizerName)
-                        .methodName(sanitizerName) // cannot get method name, so use com.mclamee.sanitizer name instead
+                        .methodName(sanitizerName) // cannot get method name, so use sanitizer name instead
                         .build();
 
                     Method sanitizer = lookupMethod(i, methodName, refKey);
@@ -62,9 +58,11 @@ public class SanitizerAspect {
             }
         }
 
-//        System.out.println("pjp = " + pjp);
         return pjp.proceed();
     }
+
+    @Autowired
+    private SanitizerCache cache;
 
     private Method lookupMethod(int i, String methodName, SanitizerCache.SanitizerCacheKey refKey) {
         Method sanitizer = cache.get(refKey, false);

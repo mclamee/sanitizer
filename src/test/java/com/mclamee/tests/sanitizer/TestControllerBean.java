@@ -1,34 +1,36 @@
-package com.mclamee.sanitizer;
+package com.mclamee.tests.sanitizer;
 
 import java.util.List;
 
+import com.mclamee.sanitizer.Sanitized;
+import com.mclamee.sanitizer.Sanitizer;
+import com.mclamee.sanitizer.util.WhiteSpaceUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.apache.commons.lang3.StringUtils;
 
 public class TestControllerBean {
 
-    public List<UserVo> callDefaultSanitizer(@Sanitized List<UserVo> userVos) {
+    public List<TestUserVo> callDefaultSanitizer(@Sanitized List<TestUserVo> userVos) {
         return userVos;
     }
 
-    public List<UserVo> callSanitizerByMethodName(@Sanitized("sanitizeUserListMethodName") List<UserVo> userVos) {
+    public List<TestUserVo> callSanitizerByMethodName(@Sanitized("sanitizeUserListMethodName") List<TestUserVo> userVos) {
         return userVos;
     }
 
     @Data
     @AllArgsConstructor
     public static class Result {
-        private List<UserVo> userVos;
-        private UserVo userVo;
+        private List<TestUserVo> userVos;
+        private TestUserVo userVo;
 
     }
 
-    public Result callSpecialSanitizer(@Sanitized("specialName") List<UserVo> userVos, @Sanitized UserVo userVo) {
+    public Result callSpecialSanitizer(@Sanitized("specialName") List<TestUserVo> userVos, @Sanitized TestUserVo userVo) {
         return new Result(userVos, userVo);
     }
 
-    public Result callInvalidSanitizer(@Sanitized("loopCall") List<UserVo> userVos, @Sanitized UserVo userVo) {
+    public Result callInvalidSanitizer(@Sanitized("loopCall") List<TestUserVo> userVos, @Sanitized TestUserVo userVo) {
         return new Result(userVos, userVo);
     }
 
@@ -36,7 +38,7 @@ public class TestControllerBean {
     }
 
     @Sanitizer
-    public static List<UserVo> sanitizeUserListDefault(List<UserVo> userVos) {
+    public static List<TestUserVo> sanitizeUserListDefault(List<TestUserVo> userVos) {
         if (userVos != null) {
             userVos.stream().forEach(i -> {
                 if (i.getUserName() != null) {
@@ -48,11 +50,12 @@ public class TestControllerBean {
     }
 
     @Sanitizer("specialName")
-    public static List<UserVo> sanitizeUserListSpecial(List<UserVo> userVos) {
+    public static List<TestUserVo> sanitizeUserListSpecial(List<TestUserVo> userVos) {
         if (userVos != null) {
             userVos.stream().forEach(i -> {
+
                 if (i.getUserName() != null) {
-                    i.setUserName(StringUtils.trim(i.getUserName().replaceAll("test", "")));
+                    i.setUserName(WhiteSpaceUtil.sanitize(i.getUserName().replaceAll("test", "")));
                 }
             });
         }
@@ -60,13 +63,13 @@ public class TestControllerBean {
     }
 
     @Sanitizer
-    public static UserVo sanitizeVo(UserVo userVo) {
+    public static TestUserVo sanitizeVo(TestUserVo userVo) {
         userVo.setUserName("changed");
         return userVo;
     }
 
     @Sanitizer("loopCall")
-    public static UserVo loopCall(@Sanitized("specialName") UserVo userVo) {
+    public static TestUserVo loopCall(@Sanitized("specialName") TestUserVo userVo) {
         // no change and return directly
         return userVo;
     }

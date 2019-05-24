@@ -1,5 +1,6 @@
 package com.mclamee.sanitizer;
 
+import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -9,11 +10,12 @@ import org.springframework.core.annotation.AliasFor;
 
 /**
  * Mark a static method as Sanitizer
- * The first com.mclamee.sanitizer scanned for the return type will be used as Default Sanitizer
+ * The first sanitizer scanned for the return type will be used as Default Sanitizer
  */
 @SuppressWarnings("unused")
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
+@Documented
 public @interface Sanitizer {
     boolean setDefault() default false;
 

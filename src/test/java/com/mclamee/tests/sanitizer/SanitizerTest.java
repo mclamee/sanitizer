@@ -1,44 +1,45 @@
-package com.mclamee.sanitizer;
+package com.mclamee.tests.sanitizer;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.BiConsumer;
 
+import com.mclamee.sanitizer.util.WhiteSpaceUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = SanitizerTestConfig.class)
+@Slf4j
 public class SanitizerTest {
 
     @Autowired
-    ApplicationContext applicationContext;
+    private TestControllerBean controller;
 
-    private List<UserVo> userVos;
-    private UserVo userVo;
+    private List<TestUserVo> userVos;
+    private TestUserVo userVo;
 
     @Before
     public void setup() {
-        userVos = new ArrayList<>();
-        userVos.add(new UserVo("william test"));
+        log.info("controller = " + controller);
 
-        userVo = new UserVo("wicky test test");
+        userVos = new ArrayList<>();
+        userVos.add(new TestUserVo("william test"));
+
+        userVo = new TestUserVo("wicky test test");
     }
 
     @Test
     public void testDefault() {
-        TestControllerBean controller = applicationContext.getBean(TestControllerBean.class);
-        System.out.println("controller = " + controller);
-
         // trigger aspect
-        List<UserVo> result = controller.callDefaultSanitizer(this.userVos);
+        List<TestUserVo> result = controller.callDefaultSanitizer(this.userVos);
 
         // asserts
         Assert.assertTrue(result != null);
@@ -47,11 +48,8 @@ public class SanitizerTest {
 
     @Test
     public void testCallByMethod() {
-        TestControllerBean controller = applicationContext.getBean(TestControllerBean.class);
-        System.out.println("controller = " + controller);
-
         // trigger aspect
-        List<UserVo> result = controller.callSanitizerByMethodName(this.userVos);
+        List<TestUserVo> result = controller.callSanitizerByMethodName(this.userVos);
 
         // asserts
         Assert.assertTrue(result != null);
@@ -60,47 +58,38 @@ public class SanitizerTest {
 
     @Test
     public void testSpecial() {
-        TestControllerBean controller = applicationContext.getBean(TestControllerBean.class);
-        System.out.println("controller = " + controller);
-
         // trigger aspect
         TestControllerBean.Result results = controller.callSpecialSanitizer(userVos, userVo);
 
         // asserts for Vos
-        List<UserVo> result = results.getUserVos();
+        List<TestUserVo> result = results.getUserVos();
         Assert.assertTrue(result != null);
         Assert.assertTrue(result.stream().allMatch(r -> r.getUserName().equals("william")));
 
         // asserts for Vo
-        UserVo resultVo = results.getUserVo();
+        TestUserVo resultVo = results.getUserVo();
         Assert.assertTrue(resultVo != null);
         Assert.assertTrue(resultVo.getUserName().equals("changed"));
     }
 
     @Test
     public void testInvalid() {
-        TestControllerBean controller = applicationContext.getBean(TestControllerBean.class);
-        System.out.println("controller = " + controller);
-
         // trigger aspect
         TestControllerBean.Result results = controller.callInvalidSanitizer(userVos, userVo);
 
         // invalid name, using default com.mclamee.sanitizer
-        List<UserVo> result = results.getUserVos();
+        List<TestUserVo> result = results.getUserVos();
         Assert.assertTrue(result != null);
         Assert.assertTrue(result.stream().allMatch(r -> r.getUserName().equals("default")));
 
         // asserts for Vo
-        UserVo resultVo = results.getUserVo();
+        TestUserVo resultVo = results.getUserVo();
         Assert.assertTrue(resultVo != null);
         Assert.assertTrue(resultVo.getUserName().equals("changed"));
     }
 
     @Test
     public void testNonExists() {
-        TestControllerBean controller = applicationContext.getBean(TestControllerBean.class);
-        System.out.println("controller = " + controller);
-
         // trigger aspect
         try {
             controller.callNonExistsSanitizer(new TestControllerBean());
@@ -113,11 +102,8 @@ public class SanitizerTest {
 
     @Test
     public void testLoopCall() {
-        TestControllerBean controller = applicationContext.getBean(TestControllerBean.class);
-        System.out.println("controller = " + controller);
-
         // trigger aspect
-        UserVo resultVo = controller.loopCall(this.userVo);
+        TestUserVo resultVo = controller.loopCall(this.userVo);
 
         // asserts, user name no change
         Assert.assertTrue(resultVo != null);
@@ -139,12 +125,13 @@ public class SanitizerTest {
         String expAaa2 = "a a a" + System.lineSeparator() + "bb b";
         String expAaa3 = "a a a  bb b";
 
-        System.out.println("Start Testing " + WhiteSpaceUtil.class.getSimpleName() + "!");
+        String className = WhiteSpaceUtil.class.getSimpleName();
+        log.info("Start Testing " + className + "!");
 
         asserts.accept(expAaa1, WhiteSpaceUtil.sanitize(strAaa));
         asserts.accept(expAaa2, WhiteSpaceUtil.sanitize(strAaa, false));
         asserts.accept(expAaa3, WhiteSpaceUtil.sanitizeLine(strAaa));
 
-        System.out.println("All Tests Passed!");
+        log.info("All " + className + " Tests Passed!");
     }
 }

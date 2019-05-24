@@ -1,15 +1,12 @@
-package com.mclamee.sanitizer;
+package com.mclamee.tests.sanitizer;
 
 import java.util.List;
 
+import com.mclamee.EnableSanitizerModule;
+import com.mclamee.sanitizer.Sanitizer;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
-import org.springframework.context.annotation.Import;
 
-@Configuration
-@EnableAspectJAutoProxy
-@Import( {SanitizerAspect.class, SanitizerPostProcessor.class, SanitizerCache.class})
+@EnableSanitizerModule
 public class SanitizerTestConfig {
 
     @Bean
@@ -19,7 +16,7 @@ public class SanitizerTestConfig {
 
     // cross class test: package accessibility
     @Sanitizer("anyName")
-    private static List<UserVo> sanitizeUserListMethodName(List<UserVo> userVos) {
+    private static List<TestUserVo> sanitizeUserListMethodName(List<TestUserVo> userVos) {
         if (userVos != null) {
             userVos.stream().forEach(i -> {
                 if (i.getUserName() != null) {
@@ -32,7 +29,7 @@ public class SanitizerTestConfig {
 
     // cross class test: lower priority
     @Sanitizer("loopCall")
-    public static UserVo loopCall(UserVo userVo) {
+    public static TestUserVo loopCall(TestUserVo userVo) {
         userVo.setUserName("Inside Config Class");
         return userVo;
     }
