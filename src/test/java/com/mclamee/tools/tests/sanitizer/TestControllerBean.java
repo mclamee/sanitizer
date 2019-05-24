@@ -1,10 +1,10 @@
-package com.mclamee.tests.sanitizer;
+package com.mclamee.tools.tests.sanitizer;
 
 import java.util.List;
 
-import com.mclamee.sanitizer.Sanitized;
-import com.mclamee.sanitizer.Sanitizer;
-import com.mclamee.sanitizer.util.WhiteSpaceUtil;
+import com.mclamee.tools.sanitizer.Sanitized;
+import com.mclamee.tools.sanitizer.Sanitizer;
+import com.mclamee.tools.sanitizer.util.WhiteSpaceUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

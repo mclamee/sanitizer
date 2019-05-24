@@ -1,4 +1,4 @@
-package com.mclamee.sanitizer;
+package com.mclamee.tools.sanitizer;
 
 import java.io.Serializable;
 import java.lang.reflect.Method;
@@ -23,7 +23,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 public class SanitizerCache {
-    public static final String BASE_PACKAGE = "com.mclamee.sanitizer";
+    public static final String BASE_PACKAGE = "com.mclamee.tools.sanitizer";
     public static final String DEFAULT_KEY = "default";
 
     private Map<SanitizerCacheKey, Method> cacheHolder;

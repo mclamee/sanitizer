@@ -1,11 +1,11 @@
-package com.mclamee.tests.sanitizer;
+package com.mclamee.tools.tests.sanitizer;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.BiConsumer;
 
-import com.mclamee.sanitizer.util.WhiteSpaceUtil;
+import com.mclamee.tools.sanitizer.util.WhiteSpaceUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Before;

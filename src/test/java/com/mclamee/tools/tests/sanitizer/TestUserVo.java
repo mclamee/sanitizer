@@ -1,4 +1,4 @@
-package com.mclamee.tests.sanitizer;
+package com.mclamee.tools.tests.sanitizer;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

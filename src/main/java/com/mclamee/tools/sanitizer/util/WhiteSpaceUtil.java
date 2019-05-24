@@ -1,4 +1,4 @@
-package com.mclamee.sanitizer.util;
+package com.mclamee.tools.sanitizer.util;
 
 import java.util.Arrays;
 import java.util.regex.Pattern;

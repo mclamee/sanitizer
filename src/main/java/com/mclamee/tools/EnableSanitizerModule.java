@@ -1,4 +1,4 @@
-package com.mclamee;
+package com.mclamee.tools;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -6,7 +6,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import com.mclamee.sanitizer.config.SanitizerConfiguration;
+import com.mclamee.tools.sanitizer.config.SanitizerConfiguration;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 

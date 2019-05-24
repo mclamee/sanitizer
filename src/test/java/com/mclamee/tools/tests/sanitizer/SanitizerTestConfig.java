@@ -1,9 +1,9 @@
-package com.mclamee.tests.sanitizer;
+package com.mclamee.tools.tests.sanitizer;
 
 import java.util.List;
 
-import com.mclamee.EnableSanitizerModule;
-import com.mclamee.sanitizer.Sanitizer;
+import com.mclamee.tools.EnableSanitizerModule;
+import com.mclamee.tools.sanitizer.Sanitizer;
 import org.springframework.context.annotation.Bean;
 
 @EnableSanitizerModule

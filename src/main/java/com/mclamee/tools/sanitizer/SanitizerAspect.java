@@ -1,4 +1,4 @@
-package com.mclamee.sanitizer;
+package com.mclamee.tools.sanitizer;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;

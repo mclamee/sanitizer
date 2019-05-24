@@ -1,6 +1,6 @@
-package com.mclamee.sanitizer.config;
+package com.mclamee.tools.sanitizer.config;
 
-import com.mclamee.sanitizer.SanitizerCache;
+import com.mclamee.tools.sanitizer.SanitizerCache;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
