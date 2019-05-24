@@ -6,7 +6,7 @@
 
     <groupId>com.mclamee</groupId>
     <artifactId>sanitizer</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
 
     <name>sanitizer</name>
     <url>http://www.mclamee.com/tools/sanitizer</url>
