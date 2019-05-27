@@ -53,13 +53,20 @@ public class SanitizerPostProcessor implements BeanPostProcessor {
                 if (!Modifier.isStatic(method.getModifiers())) {
                     throw new IllegalArgumentException("Sanitizer method must be static: " + method);
                 }
-                if (method.getParameterTypes().length != 1) {
-                    throw new IllegalArgumentException("Sanitizer method can accept only 1 parameter");
+                int len = method.getParameterTypes().length;
+                if (len <= 0) {
+                    throw new IllegalArgumentException("Sanitizer method must accept one parameter but no parameter " +
+                        "found: " + method);
+                }
+                if (len > 1) {
+                    throw new IllegalArgumentException("Sanitizer method can only accept one parameter but " + len +
+                        " parameters found: " + method);
                 }
                 String paraType = method.getGenericParameterTypes()[0].getTypeName();
                 String returnType = method.getGenericReturnType().getTypeName();
                 if (!Objects.equals(paraType, returnType)) {
-                    throw new IllegalArgumentException("Sanitizer must return the same type as the parameter");
+                    throw new IllegalArgumentException("Sanitizer method must return the same type as the parameter:" +
+                        " " + method);
                 }
 
                 String className = targetClass.getName();

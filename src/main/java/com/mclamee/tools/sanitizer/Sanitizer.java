@@ -12,7 +12,6 @@ import org.springframework.core.annotation.AliasFor;
  * Mark a static method as Sanitizer
  * The first sanitizer scanned for the return type will be used as Default Sanitizer
  */
-@SuppressWarnings("unused")
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
